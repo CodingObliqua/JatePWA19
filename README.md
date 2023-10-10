@@ -15,7 +15,7 @@ This web application is a text editor that allows developers to create and manag
 - [Deployment to Heroku](#deployment-to-heroku)
 - [Credits](#Credits)
 - [License](#License)
-- [Link][Link]
+- [Link](Link)
 
 ## Features
 - Create and manage notes or code snippets.
