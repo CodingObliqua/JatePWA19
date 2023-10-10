@@ -76,6 +76,7 @@ To deploy this application to Heroku, make sure you have the proper build script
 
 ```bash
 git push heroku main
+```
 
 ## Credits
 
