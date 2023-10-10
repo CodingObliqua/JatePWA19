@@ -1,58 +1,69 @@
 import { openDB } from 'idb';
 
-const initdb = async () =>
-  openDB('jate', 1, {
-    upgrade(db) {
-      if (db.objectStoreNames.contains('jate')) {
-        console.log('jate database already exists');
-        return;
-      }
-      db.createObjectStore('jate', { keyPath: 'id', autoIncrement: true });
-      console.log('jate database created');
-    },
-  });
+// Initialize the database
+const initDB = async () => {
+  const dbName = 'jate';
+  const dbVersion = 1;
 
-// TODO: Add logic to a method that accepts some content and adds it to the database
-export const putDb = async (content) => {
-  console.log('Post to the database');
-
-  // Create a connection to the database database and version we want to use.
-  const contactDb = await openDB('jate', 1);
-
-  // Create a new transaction and specify the database and data privileges.
-  const tx = contactDb.transaction('jate', 'readwrite');
-
-  // Open up the desired object store.
-  const store = tx.objectStore('jate');
-
-  // Use the .add() method on the store and pass in the content.
-  const request = store.put({ id:1, value:content });
-
-  // Get confirmation of the request.
-  const result = await request;
-  console.log('🚀 - data saved to the database', result.value);
+  try {
+    const db = await openDB(dbName, dbVersion, {
+      upgrade(db) {
+        if (db.objectStoreNames.contains(dbName)) {
+          console.log(`${dbName} database already exists`);
+          return;
+        }
+        db.createObjectStore(dbName, { keyPath: 'id', autoIncrement: true });
+        console.log(`${dbName} database created`);
+      },
+    });
+  } catch (error) {
+    console.error('Error initializing the database:', error);
+  }
 };
 
-// TODO: Add logic for a method that gets all the content from the database
-export const getDb = async () => {
-  console.log('GET from the database');
+// Add content to the database
+export const putDB = async (content) => {
+  console.log('Adding data to the database');
 
-  // Create a connection to the database database and version we want to use.
-  const contactDb = await openDB('jate', 1);
+  const dbName = 'jate';
+  const dbVersion = 1;
 
-  // Create a new transaction and specify the database and data privileges.
-  const tx = contactDb.transaction('jate', 'readonly');
+  try {
+    const db = await openDB(dbName, dbVersion);
+    const tx = db.transaction(dbName, 'readwrite');
+    const store = tx.objectStore(dbName);
 
-  // Open up the desired object store.
-  const store = tx.objectStore('jate');
+    const request = store.put({ id: 1, value: content });
 
-  // Use the .getAll() method to get all data in the database.
-  const request = store.getAll();
-
-  // Get confirmation of the request.
-  const result = await request;
-  console.log('result.value', result);
-  return result;
+    await request;
+    console.log('🚀 Data saved to the database:', content);
+  } catch (error) {
+    console.error('Error adding data to the database:', error);
+  }
 };
 
-initdb();
+// Retrieve all content from the database
+export const getDB = async () => {
+  console.log('Retrieving data from the database');
+
+  const dbName = 'jate';
+  const dbVersion = 1;
+
+  try {
+    const db = await openDB(dbName, dbVersion);
+    const tx = db.transaction(dbName, 'readonly');
+    const store = tx.objectStore(dbName);
+
+    const request = store.getAll();
+
+    const result = await request;
+    console.log('Retrieved data from the database:', result);
+    return result;
+  } catch (error) {
+    console.error('Error retrieving data from the database:', error);
+    return [];
+  }
+};
+
+// Initialize the database when the module is loaded
+initDB();
