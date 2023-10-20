@@ -97,3 +97,4 @@ This project is deployed on Heroku. You can access it [here](https://vast-lake-5
 
 [GitHub Repository](https://github.com/CodingObliqua/JatePWA19)
 
+![My Project Logo](/client/src/images/jatepic.JPG)
