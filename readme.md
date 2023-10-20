@@ -1,5 +1,5 @@
 # JatePWA19
-~ Text Editor Web Application ~
+ ~ Text Editor Web Application ~
 
 ## Description
 This web application is a text editor that allows developers to create and manage notes or code snippets, with or without an internet connection. It uses IndexedDB for local storage and provides a user-friendly interface for creating, saving, and retrieving content.
